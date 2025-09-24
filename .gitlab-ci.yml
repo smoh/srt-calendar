@@ -11,7 +11,7 @@ build_calendar:
   script:
     # Debugging: show environment
     - echo "SRT_IDEN is $SRT_IDEN"
-    - python src/generate_ics.py --out calendar/calendar.ics --token "$PUBLISH_DIR_TOKEN"
+    - python generate_ics.py --out calendar/calendar.ics --token "$PUBLISH_DIR_TOKEN"
   artifacts:
     paths:
       - calendar/          # Save the generated calendar folder for next stage
