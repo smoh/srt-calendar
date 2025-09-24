@@ -21,6 +21,7 @@ from datetime import datetime
 import argparse
 import os
 import json
+import pickle
 from SRT import SRT
 
 
@@ -59,6 +60,7 @@ def process_reservation(r):
         to_station=r.arr_station_name,
         seat=", ".join(f"{t.car}-{t.seat}" for t in r._tickets if t.seat),
         booking_ref=r.reservation_number,
+        paid=r.paid,
     )
 
 
@@ -76,8 +78,8 @@ def fetch_booked_trains_from_srt(IDEN, PASSWORD, debug=False):
     """
     if debug:
         ic("Debug mode: using static data")
-        with open(os.path.join(os.path.dirname(__file__), "sample_trains.json")) as f:
-            reservations = json.load(f)
+        with open("reservations.pickle", "rb") as f:
+            reservations = pickle.load(f)
         return [process_reservation(r) for r in reservations]
 
     ic("Fetching booked trains from SRT")
@@ -95,12 +97,17 @@ def create_calendar(trips):
     c = Calendar()
     for t in trips:
         e = Event()
-        title = f"SRT {t.get('train_number','').strip('0 ')} {t.get('from_station','')}→{t.get('to_station','')}: {t.get('seat', '?')}"
+        title = (
+            ("<예약>" if not t.get("paid", False) else "")
+            + f"{t.get('from_station','')}→{t.get('to_station','')}: {t.get('seat', '?')}"
+        )
+        ic(title)
         e.name = title
         # Parse ISO datetimes robustly
         e.begin = t["departure_iso"]
         e.end = t["arrival_iso"]
         desc_lines = []
+        desc_lines.append(f"SRT {t.get('train_number','').strip('0 ')}")
         if t.get("seat"):
             desc_lines.append(f"Seat: {t['seat']}")
         if t.get("booking_ref"):
