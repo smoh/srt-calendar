@@ -11,10 +11,10 @@ build_calendar:
   script:
     # Debugging: show environment
     - echo "SRT_IDEN is $SRT_IDEN"
-    - python generate_ics.py --out calendar/calendar.ics --token "$PUBLISH_DIR_TOKEN"
+    - python generate_ics.py --out calendar.ics --token "$PUBLISH_DIR_TOKEN"
   artifacts:
     paths:
-      - calendar/          # Save the generated calendar folder for next stage
+      - calendar.ics          # Save the generated calendar folder for next stage
     expire_in: 1 hour
 
 # STEP 2: Deploy to GitLab Pages
@@ -23,7 +23,7 @@ pages:
   image: alpine:latest
   script:
     - echo "Deploying calendar to GitLab Pages..."
-    - mv calendar public   # GitLab Pages requires a "public" folder
+    - mv calendar.ics public   # GitLab Pages requires a "public" folder
   artifacts:
     paths:
       - public
