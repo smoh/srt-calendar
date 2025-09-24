@@ -95,7 +95,7 @@ def create_calendar(trips):
     c = Calendar()
     for t in trips:
         e = Event()
-        title = f"SRT {t.get('train_number','')} {t.get('from_station','')} → {t.get('to_station','')}: {t.get('seat', '?')}"
+        title = f"SRT {t.get('train_number','').strip('0 ')} {t.get('from_station','')}→{t.get('to_station','')}: {t.get('seat', '?')}"
         e.name = title
         # Parse ISO datetimes robustly
         e.begin = t["departure_iso"]

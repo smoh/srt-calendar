@@ -4,6 +4,7 @@ stages:
 
 # STEP 1: Build the ICS file
 build_calendar:
+  retry: 1
   stage: build
   image: python:3.11
   before_script:
