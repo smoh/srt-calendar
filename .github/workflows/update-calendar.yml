@@ -1,0 +1,50 @@
+name: Update Train Calendar
+
+on:
+  schedule:
+    - cron: '0 6 * * *' # every day at 06:00 UTC (adjust as you like)
+  workflow_dispatch: {}
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Generate calendar.ics
+        env:
+          PUBLISH_DIR_TOKEN: ${{ secrets.PUBLISH_DIR_TOKEN }}
+          # Add any other secrets / env vars you need for fetching bookings, e.g. API_KEY
+          SRT_IDEN: ${{ secrets.SRT_IDEN }}
+          SRT_PASSWORD: ${{ secrets.SRT_PASSWORD }}
+        run: |
+          python src/generate_ics.py --out calendar.ics --token "$PUBLISH_DIR_TOKEN"
+
+      - name: Prepare publish directory
+        run: |
+          mkdir -p out
+          # Put the generated calendar into a folder named after token
+          mkdir -p out/${{ secrets.PUBLISH_DIR_TOKEN }}
+          mv calendar.ics out/${{ secrets.PUBLISH_DIR_TOKEN }}/calendar.ics
+          echo "Generated calendar placed at out/${{ secrets.PUBLISH_DIR_TOKEN }}/calendar.ics"
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN || github.token }}
+          publish_dir: ./out
+        # The action will commit to gh-pages branch and push
