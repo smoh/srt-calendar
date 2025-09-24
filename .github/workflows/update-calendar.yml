@@ -32,6 +32,7 @@ jobs:
           SRT_IDEN: ${{ secrets.SRT_IDEN }}
           SRT_PASSWORD: ${{ secrets.SRT_PASSWORD }}
         run: |
+          echo $SRT_IDEN
           python generate_ics.py --out calendar.ics --token "$PUBLISH_DIR_TOKEN"
 
       - name: Prepare publish directory
