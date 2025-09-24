@@ -29,10 +29,9 @@ jobs:
         env:
           PUBLISH_DIR_TOKEN: ${{ secrets.PUBLISH_DIR_TOKEN }}
           # Add any other secrets / env vars you need for fetching bookings, e.g. API_KEY
-          SRT_IDEN: ${{ secrets.SRT_IDEN }}
+          SRT_IDEN: ${{ secrets.SRT_IDEN }}C
           SRT_PASSWORD: ${{ secrets.SRT_PASSWORD }}
         run: |
-          echo $SRT_IDEN
           python generate_ics.py --out calendar.ics --token "$PUBLISH_DIR_TOKEN"
 
       - name: Prepare publish directory
