@@ -20,6 +20,7 @@ build_calendar:
 
 # STEP 2: Deploy to GitLab Pages
 pages:
+  retry: 1
   stage: deploy
   image: alpine:latest
   script:
