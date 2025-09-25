@@ -9,3 +9,7 @@ Script to generate an iCalendar file (.ics) for booked trains on SRT (수서고�
 SRT_IDEN=your_id SRT_PASSWORD=your_password python generate_ics.py --out calendar.ics
 
 일정 제목 형식: [<예약>]출발→도착: 호차-(좌석)
+
+github / gitlab CI/CD 워크플로우 예시가 있습니다.
+
+NOTE:구글 캘린더 구독은 자주 변하지 않는 일정을 가정해 개발되었기 때문에 소스파일 업데이트에 최대 24시간이 걸릴 수 있습니다.
