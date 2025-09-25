@@ -12,4 +12,4 @@ SRT_IDEN=your_id SRT_PASSWORD=your_password python generate_ics.py --out calenda
 
 github / gitlab CI/CD 워크플로우 예시가 있습니다.
 
-NOTE:구글 캘린더 구독은 자주 변하지 않는 일정을 가정해 개발되었기 때문에 소스파일 업데이트에 최대 24시간이 걸릴 수 있습니다.
+NOTE:구글 캘린더 구독은 자주 변하지 않는 일정을 가정해 개발되었기 때문에 소스파일 업데이트 이후 동기화까지 최대 24시간이 걸릴 수 있습니다.
