@@ -1,26 +1,15 @@
-"""Generate an iCalendar file for booked trains.
-
-
-This script contains a placeholder function `fetch_booked_trains()` where you should
-plug in your logic to fetch booked train data (API, scraping, file parse, etc.).
-
-
-It writes `calendar.ics` to the current working directory. When used by the workflow,
-it will be moved into the token-named folder for publishing.
+"""Generate an iCalendar file (.ics) for booked trains on SRT.
 
 
 Usage:
-python src/generate_ics.py --out calendar.ics --token <TOKEN>
-
+SRT_IDEN=your_id SRT_PASSWORD=your_password python src/generate_ics.py --out calendar.ics
 
 """
 
 from icecream import ic
 from ics import Calendar, Event
-from datetime import datetime
 import argparse
 import os
-import json
 import pickle
 from SRT import SRT
 
@@ -65,7 +54,8 @@ def process_reservation(r):
 
 
 def fetch_booked_trains_from_srt(IDEN, PASSWORD, debug=False):
-    """Placeholder. Replace this with real fetch logic.
+    """
+    Use SRTrain library to fetch booked trains from SRT.
 
     Return a list of dicts, each with keys:
     - train_number
@@ -127,11 +117,6 @@ def main():
         type=str,
         default="calendar.ics",
         help="Output .ics file path",
-    )
-    parser.add_argument(
-        "--token",
-        default=None,
-        help="Token (not used in file but workflow moves file into token folder)",
     )
     parser.add_argument("--debug", action="store_true", help="Enable debug mode")
     args = parser.parse_args()
